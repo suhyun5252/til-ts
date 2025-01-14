@@ -1,8 +1,8 @@
 // import { bye, hi } from "./sample";
-
 // const go = () => {
 //   console.log("go");
 // };
 // hi("홍길동");
 // bye();
-const age: number = 200;
+const age = 200;
+export {};
