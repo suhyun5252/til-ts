@@ -1,141 +1,124 @@
-# 객체 타입 호환성
+# 타입 단언 (Type Assertion)
 
-## 1. object 타입의 호환성
-
-- object 는 모든 객체 타입의 수퍼타입이다.
-- object 는 any, unknown의 서브타입이다.
-
-```ts
-let obj: {
-  name: string;
-} = { name: "hang" };
-let obj2: object = { name: "hang" };
-
-let a: any = obj;
-let b: unknown = obj2;
-```
-
-## 2. Array 타입의 호환성
-
-- Array<any>은 모든 배열 타입의 수퍼타입이다.
-- Array<특정타입> 은 더 구체적인 배열 타입의 수퍼타입이다.
-
-# 3. 유니온 타입의 호환성(A | B)
-
-- 아래 문장은 기본형 타입의 유니온
-- 문자열 또는 숫자형 데이터를 대입할 수 있다.
-- 합집합 (서로 연관성이 전혀 없는 데이터 형을 조합한 새로운 타입 정의)
+- `타입스크립트야 이건 내가 타입을 정한게 맞아`
+- 개발자가 타입을 보증한다는 의미
+- 검사하지말고 나를 믿어줘
+- 컴퍼일러를 속이는 과정이다.
 
 ```ts
-type StringNumber = string | number;
-```
-
-- A | B 는 A 또는 B 를 포함하는 두 타입의 수퍼타입이다.
-
-```ts
-type StringNumber = string | number;
-// 문자열은 StringNumber 타입의 서브 타입이므로 업캐스팅됨
-let now: StringNumber = "hello";
-// 숫자데이터는 StringNumber 타입의 서브 타입이므로 업캐스팅됨
-now = 12;
-```
-
-### 3.1 데이터를 `변수에 담아서` 변수를 전달할 때
-
-- 같은 종류의 데이터라고 인정해줘(객체 타입 호환성)
-
-```ts
-type Animal = {
+type Person = {
   name: string;
   age: number;
 };
-type Cat = {
-  name: string;
-  age: number;
-  color: string;
-};
-type Sample = Animal | Cat;
 
-const ani: Animal = { name: "hong", age: 21 };
-const ani2: Cat = { name: "hong", age: 21, color: "노랑" };
+// 아래는 타입추론에서 : {} 어노테이션으로 판단
+// 프로퍼티 name, 프로퍼티 age 가 없다고 오류
+let who = {};
+who.name = "hong";
+who.age = 100;
+
+// 필수 프로퍼티가 할당 안됨.
+let who2: { name: string; age: number } = {};
+
+// 옵션은 개발자의 의도가 아닌 회피 방법
+let who3: { name?: string; age?: number } = {};
+
+// 최종 책임을 개발자가 지겠다. 타입 검사 취소
+let who4 = {} as Person;
+who4.name = "hong";
+who4.age = 100;
+who4.go = 100; // 없는 속성은 잘 잡아준다.
 ```
 
-- `변수로 전달`
+## 1. any 타입을 명확한 타입으로 단언
 
 ```ts
-const ani: Animal = { name: "hong", age: 21 };
-const ani2: Cat = { name: "hong", age: 21, color: "노랑" };
-
-const ani4: Animal = ani2; // 왜 될까? 최소 조건을 만족했으니깐 인정(데이터 호환 가능)
-// Animal 타입은 name, age 만 있어야 한다.
-// 지금 야옹이에 name, age 이 외에도 Color 가 존재한다.
-// 타입이 안맞는데? 오래 아냐?
-// TS 에서는 객체 값을 입력할 때 속성을 비교합니다.
-// 프로퍼티 개수가 적은 타입에 프로퍼티 개수가 많은 타입은 업캐스팅 해줌.
+let value: any = "Hello";
+let count: number = (value as string).length;
 ```
 
-### 3.1 데이터를 `객체리터럴에 담아서 전달`할 때
+## 2. DOM 을 활용할 때
 
 ```ts
-const gogo: Animal = { name: "hong", age: 21, color: "노랑" }; // color 에러
-// 리터럴 객체라서 프로퍼티 초과 에러가 발생한다.
-// 변수에 담겨진 형태가 아닌 객체 리터럴롤 전달하면 프로퍼티 초과 에러가 발생
+const root = document.getElementById("root") as HTMLElement;
+const inputTag = document.querySelector("input");
+(inputTag as HTMLInputElement).value = "hi";
 ```
 
-### 3.3 데이터를 변수로 담아서 전달함.
+## 3. 유니온 타입중 하나를 지정하기
 
 ```ts
-const ani: Animal = { name: "hong", age: 21 };
-const ani4: cat = ani; // 오류
-// cat의 name, age, color 필수 프로퍼티를 충족하지 못함
+type User = { name: string };
+type Admin = { name: string; admin: boolean };
+
+let person: User | Admin = { name: "hong", admin: true };
+
+console.log(person as Admin);
 ```
 
-### 3.4 유니온 샘플
+## 4. Null 이 아닌 값으로 단언
+
+- 이거 절대 null 아니라고 개발자가 알려준다.
 
 ```ts
-type Animal = {
-  name: string;
-  age: number;
-};
-type Cat = {
-  name: string;
-  age: number;
-  color: string;
-};
-const 동물: Animal = { age: 12, name: "hong" };
-const 고양이: Cat = { age: 12, name: "hong", color: "yellow" };
-type Sample = Animal | Cat;
-const now: Sample = 동물;
-const now2: Sample = 동물;
-const now3: Sample = { age: 12, name: "hong", color: "yellow" };
-// 실제 타입은 3가지가 나옵니다.
-// {age : number, age:string}
-// {age : number, age:string, color:string}
-// {age : number, age:string, color:string}
+let tag = document.querySelector("div");
+(tag as HTMLDivElement).innerHTML = "Hello, world";
 ```
 
-## 4. 인터섹션(교집합 - Intersection) 타입 (A & B)
+## 5. const 단언
 
-- A & B 는 A도 만족하고 B도 만족하는 타입
-- A & B 는 A의 서브타입, B의 서브타입
+- 상당히 편리하게 사용할 수 있다.
 
 ```ts
-type Wow = number & string;
-// 서로 교차하는 공통의 데이터 종류가 없으므로
-// 결코 존재할 수 없는 타입이므로  never 로 된다.
-const go: Wow = 1; //오류
-console.log(go);
+let num = 10 as const;
+
+// as const 활용시 readonly 가 셋팅되어서 변경 불가
+let animal = {
+  name: "야옹",
+  age: 10,
+} as const;
+
+animal.age = 10; // 오류
+// 아래처럼 된다.
+let animal2 = {
+  name: "야옹",
+  age: 10,
+} as const;
 ```
 
+## 6. 타입 좁히기(Type Narrowing) 과 함께 활용
+
 ```ts
-type Person = { name: string };
-type Employee = { company: string };
-type Sample = Person & Employee;
+function show(value: string | number) {
+  // 타입 좁히기
+  if (typeof value === "string") {
+    console.log((value as string).toUpperCase());
+  } else {
+    console.log((value as number).toFixed(2));
+  }
+}
+```
 
-//  속성이 한개만 누락되어도 오류다.
-const whoA: Sample = { name: "hong" }; //오류
-const whoB: Sample = { company: "green" }; //오류
+## 7. 타입단언 사용시 주의 유형.
 
-// Sample 타입은 Person 과 Employee 를 모두의 서브타입이므로
-const whoC: Sample = { company: "green", name: "hong" }; //정상
+- 모든 타입을 타입 단언으로 해결되지 않는다.
+- 수퍼타입과 서브타입을 고민해야 한다.
+
+```ts
+let num: number = 10 as never;
+// 10은 number 이고
+// never 는 모든 타입의 서브타입
+// 10 수퍼타입이므로 단언이 가능함.
+let num2 = 10 as unknown;
+// 10 은 number 이고
+// unknow 은 최상위 수퍼타입
+// 10 은 unknow 의 서브 타입이므로 단언이 가능
+
+let num3 = 10 as string; //오류
+//  10 은 number 이고
+// string 은 number 의 수퍼 또는 서브 타입이 아님
+//  단언이 불가
+
+//  아래는 좋지 않은 단언 샘플
+let num4 = 10 as unknown as string;
 ```
