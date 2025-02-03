@@ -28,3 +28,5 @@ class ElectricCar implements CarInterface, ElectricInterface {
 }
 
 let 자동차 = new ElectricCar("캐스퍼", "현대", 1000, 10, true);
+자동차.stop();
+자동차.move();

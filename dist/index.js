@@ -16,17 +16,13 @@ class Car {
     console.log(`${this.name}을 멈춥니다.`);
   }
 }
-
-// 상속 즉 확장을 통한 클래스 정의
+// 상속
 class ElectricCar extends Car {
-  // 자식 클래스에 해당하는 속성 필드
   batteryLevel;
   constructor(name, brand, price, year, batteryLevel) {
-    // 부모의 constructor 를 먼저 실행해 주어야 함.
     super(name, brand, price, year);
     this.batteryLevel = batteryLevel;
   }
-  // 자식 클래스에 해당하는 메소드 필드
   level() {
     console.log(`${this.batteryLevel} 입니다.`);
   }
