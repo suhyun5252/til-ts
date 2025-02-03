@@ -1,346 +1,157 @@
-# 함수
+# TypeScript
 
-- 매게변수의 데이터 타입 정의
-- 함수 실행 후 결과값의 데이터 타입 정의
+## 1. 기본적 개발 환경 코드 설정
+
+- Node.js 설치
+  : 18 버전이상
+  : LTS란 Long Term Support 의 약자로 오랜기간동안 안정적으로 지원되는 버전
+  : `node --version` 또는 `node -v` 명령어로 버전 확인
+  : `npm -v` 명령어로 npm 버전 확인
+
+## 2. TypeScript 소개
+
+- https://www.typescriptlang.org/
+- https://www.typescriptlang.org/play
+- 타입스크립트는 기존의 자바스크립트를 더 안전하게 사용할 수 있도록 타입 관련된 여러가지 기능들을 추가한 언어입니다.
+- 그래서 타입스크립트는 쉽게 말해서 `자바스크립트의 확장판` 이라고 부를 수 있습니다.
+- 타입스크립트는 최종적으로 자바스크립트로 변환되어 실행됩니다.
+- 이미 자바스크립트를 안다면 확장판 학습은 수월하다.
+
+## 3. 굳이 타입스크립트를 사용하는 이유
+
+- 자바스크립트가 너무 인기가 있기 때문이다.
+- 개발자가 갖추어야 할 기본 소양이 되었다.
+
+- 자바스크립트의 문제점
+  : 유연한 문법
+  : 자유로움
+  : 버그 발생 가능성 높음
+
+- Node.js 즉, 자바스크립트 런타임 구동기가 나오면서 웹브라우저 뿐만 아니라 어디서도 실행할 수 있도록 되었다.
+  : 굉장히 다양한 개발 진행됨.
+  : 웹 서버, 모바일 앱, 데스크탑 앱 에 활용
+  : js 한계가 있었던 부분을 해결해줌
+  : 문제는 js 는 너무 엄격하지 않아서 문제가 됨.
+
+- 타입스크립트의 장점
+  : 엄격한 문법
+  : 버그 발생 가능성 낮음
+  : 안정적임
+
+- 그래서, 자바스크립트를 더 안전하게 사용할 수 있도록 `타입관련기능들을 추가한`언어
+
+## 4. 자바스크립트의 단점과 타입스크립트
+
+- 자바스크립트의 한계
+  : 모든 프로그래밍 언어는 타입 시스템이라는 것이 존재한다.
+  : 타입 시스템이란 프로그래밍 언어에서 변수의 타입을 결정하는 방법을 의미한다.
+  : 타입 시스템이 없다면 프로그래밍 언어는 모든 변수에 대한 타입을 결정할 수 없다.
+  : 타입 시스템은 변수의 타임을 결정하는 방법을 의미한다.
+
+- 타입시스템의 일반적 문법체계
+  : 값들을 어떤 기준으로 묶어 타입을 규정할 것인가?
+  : 코드의 타입을 언제 검사할 것인가?
+  : 어떻게 타입을 검사할 것인가?
+
+## 5. 타입 시스템의 종류
+
+- 정적 타입 시스템
+  : 코드 실행 전에 타입을 검사
+  : 코드 실행 전에 모든 변수의 타입을 고정적으로 결정함.
+  : 엄격하고 고정적인 시스템
+  : C, C++, Java, TypeScript 등
+
+- 동적 타입 시스템
+  : 코드 실행 중에 타입을 검사
+  : 그때 그때 마다 유동적으로 변수의 타입을 결정함.
+  : 자유롭고 유연한 시스템
+  : JavaScript, Python, Ruby 등
+  : 변수의 타입을 우리가 직접 지정하지 않음
+  : 자바스크립트가 사용하는 동적 타입 시스템은 변수의 타입들을 코드가 실행되는 도중에 결정함.
+  : 때문에 우리가 코드에 미리 변수의 타입을 일일이 지정하지 않아도 됨.
+  : 변수의 타입이 하나로만 고정되지 않음.
+  : 아무 타입의 값이나 자유롭게 담을 수 있음.
+  : 담긴 값에 따라서 변경될 수 있음.
+  : 아래는 문제점 발생함.
+  : 실행이 되는 것이 문제다.
+
+```js
+let a = "hello";
+a = 1;
+a.toUpperCase(); // 작동은 되지만 오류가 발생함.
+```
+
+- 정적 타입 시스템
+  : 코드 실행 이전 모든 변수의 타입을 고정적으로 결정함.
+  : 자바스크립트와는 반대로 변수를 선언함과 동시에 타입도 함께 명시해 주어야 함.
+  : 문법이 그렇다.
+  : 실행 중 오류는 잘 발생하지 않음.
+  : 그렇다고 모든게 좋은 것은 아니고, 모든 변수에 타입을 다 지정해 주어야 함.
+  : 타이핑 양이 매우 증가한다.
+
+## 6. 타입스크립트의 독특한 타입 시스템
+
+- 점진적 타입시스템(동적 타입 시스템 + 정적 타입 시스템)
+  : 정적 타입 시스템(변수의 타입을 실행 전에 결정)
+  : 정적 타입 시스템(타입 오류를 실행 전에 검사함)
+  : 동적 타입 시스템(모든 변수에 타입을 일일이 지정할 필요가 없음)
+  : 점진적 타입시스템-Gradual Typing System 으로 알아서 타입을 추론함
+
+## 7. 타입스크립트의 동작원리
+
+- 사람 > 프로그래밍 언어 > 컴파일(변환) > 기계어 > 컴퓨터
+- 사람 > 프로그래밍 언어 > 컴파일러가 컴파일(변환) > 바이트코드(기계어) > 컴퓨터
+- JS 코드 > AST(추상 문법 트리 변환) > 바이트코드 > 컴퓨터
+- TS 코드 > AST(추상 문법 트리 변환) > `타입검사` > js > AST(추상 문법 트리 변환) > 바이트코드 > 컴퓨터
+  : 타입과 관련딘 코드들은 컴파일 결과 모두 사라진다.
+  : 타입스크립트는 컴파일 결과 모두 사라진다.
+
+## 8. 기본 프로젝트 실습
+
+### 8.1. Node.js 프로젝트 초기화
+
+- `npm init`
+- `package.json` 파일 확인
+
+### 8.2. Node.js 가 제공하는 내장 기능들에 대한 타입 정보를 갖고 있는 `@types/node` 패키지 설치
+
+- `npm i @types/node`
+  : 패키지를 설치하지 않으면 TypeScript 가 우리가 작성한 코드를 컴파일 하는 과정에서 이런 Node.js 기본 기능에 대해서 타입 검사 오류가 발생함.
+  : 반드시 설치해 주어야 함.
+
+- `package.json` 파일 확인
+
+### 8.3. 타입스크립트 컴파일러 설치
+
+- `npm i -g typescript`
+  : 글로벌 옵션으로 설치해야 함.
+
+- `tsc -v`
+  : 타입스크립트 버전 확인
 
 ```
-// 일반 js 로 함수를 설명하는 경우
-// 어떤 매개변수를 받고, 연산을 거치고, 최종 결과를 반환함
-
-// 타입스크립트에서 함수를 설명하는 경우
-// 매개변수의 타입은 어떤것이고, 연산을 거치고, 어떤타입의 결과값을 리턴한다.
+타입스크립트는 코드를 실행하기 전에 타입을 올바르게 사용했는지 검사하는 ‘타입 검사’ 과정을 거칩니다.
+이 검사 과정에서 타입이 선언되지 않은 코드를 만나게 되면 타입스크립트는 타입이 올바르게 사용 되지 않았다고 생각해 오류를 발생 시킵니다. 따라서 Node.js의 기본 기능들을 위한 타입을 별도로 선언하기 위해 @types/node 패키지를 설치해야 합니다.
 ```
+
+## 9. TypeScript 테스트
+
+- `src` 폴더 생성
+- `src/index.ts` 파일 생성
 
 ```ts
-function add(a: number, b: number): number {
-  return a + b;
-}
-
-const add2 = (a: number, b: number): number => a + b;
+console.log("Hello TypeScript");
+const a: number = 1;
 ```
 
-## 함수의 매개변수 정의
+- `tsc src/index.ts`
+- 자동으로 js 파일 생성됨
+- `src/index.js` 파일 확인
 
-### 1. 매개변수 기본값 정의
-
-- 기본 값이 있다면 타입 추론함
-
-```ts
-// ts에서 매개변수의 타읍은 추론 못함
-// 아래처럼 기본값을 추론해서 타입 추론
-function add(a = 1, b = 2) {
-  return a + b;
-}
+```js
+console.log("Hello TypeScript");
+var a = 1;
 ```
 
-### 2. 선택적 매개변수
-
-- 매개변수를 생략하고 싶다.
-- 즉, 있을 수도 있고 없을 수도 있는 경우
-- 매개변수명 뒤에 `?` 을 통해서 옵션으로 처리가능
-
-```ts
-// ts에서 매개변수의 타읍은 추론 못함
-// 아래처럼 기본값을 추론해서 타입 추론
-function add(a: number, b?: number) {
-  if (b) {
-    return a + b;
-  }
-  return a;
-}
-// 아래는 매개변수 개수가 맞지 않음
-add(5); // 오류
-
-``;
-```
-
-### 3. 선택적 매개변수와 기본값을 혼용할수 없다.
-
-### 4. 선택적 매개변수와 객체사용
-
-```ts
-type OrderOption = {
-  name: string;
-  topping?: string;
-  size?: string;
-};
-
-function makeOrder(option: OrderOption) {
-  // 객체 구조 분해 할당
-  const { name, topping, size } = option;
-  console.log(`${name} ${topping ? topping : ""} ${size ? size : ""}`);
-}
-
-makeOrder({ name: "딸기", topping: "땅콩", size: "Big" });
-makeOrder({ name: "딸기", topping: "땅콩" });
-makeOrder({ name: "딸기" });
-```
-
-### 5. 선택적 매개변수와 콜백 함수
-
-```ts
-type OrderOption = {
-  name: string;
-  // 함수 정의
-  callback?: (message: string) => void;
-};
-
-function makeOrder(option: OrderOption) {
-  const { name, callback } = option;
-  const say = `${name} 을 구매했어요`;
-  if (callback) {
-    callback(say);
-  }
-}
-makeOrder({
-  name: "책",
-  callback: (go) => console.log(go),
-});
-makeOrder({
-  name: "딸기",
-});
-```
-
-### 6. rest 매개변수
-
-- 일반적 사용
-
-```ts
-function add(a: number, b: number, ...res: number[]) {
-  console.log(res);
-}
-
-add(1, 2, 3, 4, 5);
-```
-
-- 만약 tuple을 이용한다.
-
-```ts
-function add(a: number, b: number, ...res: [number, number, number]) {
-  console.log(res);
-}
-
-add(1, 2, 3, 4, 5);
-```
-
-## 함수의 타입 표현식
-
-```ts
-//  일반적 화살표 함수
-const add = (a: number, b: number) => a + b;
-
-// 타입 추론으로 정의된 함수의 타입이노테이션
-const add2: (a: number, b: number) => number = (a: number, b: number) => a + b;
-```
-
-### 1. type 으로 정의해 보자
-
-- type 이란? 사용자가 이름을 정한 타입 별칭
-- 개발자가 마음대로 이름 정한 타입 별칭
-
-```ts
-// 타입 추론으로 정의된 함수의 타입 어노테이션
-const add2: (a: number, b: number) => number = (a: number, b: number) => a + b;
-
-// 함수 타입정의
-type Add = (a: number, b: number) => number;
-const add2: Add = (a: number, b: number) => a + b;
-
-// 실 활용에서 매개변수 타입 지정 필요없음
-const add3: Add = (a, b) => a + b;
-```
-
-### 2. Call Signature
-
-- 함수의 타입을 별도로 지정하는 또 다른 방법
-- type 을 객체 형태로 생성합니다.
-
-```ts
-// 타입 추론으로 정의된 함수의 타입이노테이션
-type Add = (a: number, b: number) => number;
-
-// Call Signature 로 타입 정의하기
-type AddSignature = {
-  // 이름 : 결과값 데이터형
-  (a: number, b: number): number;
-};
-
-const add3: AddSignature = (a, b) => a + b;
-```
-
-## 함수타입의 호환
-
-### 1. `매개변수가 개수` 기준
-
-#### 1.1 매개변수 개수가 `작은 경우 호환 가능`
-
-```ts
-type Add = (a: number, b: number) => number;
-const add: Add = (a, b) => a + b;
-
-add(2, 3); // 정상 실행
-
-type Add2 = (a: number, b: number) => number;
-// 함수 타입 정의 시 매개변수 개수 보다 적으면 호환 안된다.
-const add2: Add2 = (a) => 10;
-add2(5, 10); // 오류 안나네?
-```
-
-#### 1.2 매개변수 개수가 `큰 경우 호환 불가능`
-
-```ts
-// 함수 타입 정의에서 매개변수 개수 보다 많으면 호환 안된다.
-const add3: Add2 = (a, b, c) => 10; //오류
-```
-
-### 2. `매개변수 타입` 기준으로 다르면 호환안됨.
-
-```ts
-type Add = (a: number, b: number) => number;
-const add: Add = (a, b) => a + b;
-
-add(2, 3); // 정상 실행
-add("a", "b"); // 오류
-```
-
-### 3. 반환값의 타입을 체크한다.
-
-```ts
-type Add = (a: number, b: number) => number;
-// 함수 타입 정의 시 매개변수 개수 보다 적으면 호환 안된다.
-const add: Add = (a, b) => 10;
-const add1: Add = (a) => 10; // 개수가 적으면 ok
-const add2: Add = (a, b, c) => 10; // 개수가 많으면 error
-const add3: Add = (a = "", b) => 10; // 타입이 맞이 않아서 error
-
-//  반환값이 타입이 맞이 않으면 error
-const add4: Add = (a, b) => "0"; // 타입이 맞이 않아서 error
-```
-
-```ts
-type Add = (a: number, b: number) => number;
-// 함수 타입 정의 시 매개변수 개수 보다 적으면 호환 안된다. 많으면 버린다.
-const add: Add = (a, b) => 10;
-const add1: Add = (a) => 10; // 개수가 적으면 ok
-const add2: Add = (a, b, c) => 10; // 개수가 많으면 error
-const add3: Add = (a = "", b) => 10; // 타입이 맞이 않아서 error
-
-//  반환값이 타입이 맞이 않으면 error
-const add4: Add = (a, b) => "0"; // 타입이 맞이 않아서 error
-
-type Add_10 = (a: number, b: number) => 10;
-const add_5: Add_10 = (a, b) => 100; // 함수 리턴값의 차이로 error
-```
-
-## 매개 변수 타입이 `만약 호환되는 타입`이라면 어떻게 될까?
-
-- 매개변수 타입을 기준으로 호환성을 체크한다.
-- 그런데 `매개변수 타입`은 우리가 아는것과 `반대로 생각`해야 한다.
-  : 원래 알던내용- Super 타입과 Sub 타입이 있으면 Sub 타입은 Super 타입에 호환된다.
-  : 함수 호환하는 경우는 반대로 생각하시길 바랍니다!!
-- 호환되는 경우
-
-```ts
-type A = (value: 10) => void;
-type B = (value: number) => void;
-
-//  10은 number 타입의 서브타입일까?
-let aaa: number = 10; //정상
-//num 는 수퍼타입이고, 10은 서브타입
-// 여기서는 매개변수 타입이 다르다.
-let a: A = (value) => {
-  console.log(value);
-};
-
-let b: B = (value) => {
-  console.log(value);
-};
-
-a = b; //ok
---------------------------------------------
-type A = (value: number) => void;
-type B = (value: 10) => void;
-
-let a: A = (value) => {
-  console.log(value);
-};
-let b: B = (value) => {
-  console.log(value);
-};
-// 안되는 이유 ? 서브타입으로 변경되므로
-a = b;
-
-// 되는 이유는 수퍼타입으로 변경되므로
-b = a;
-```
-
-- 호환 안되는 경우
-
-```ts
-type A = (value: number) => void;
-type B = (value: 10) => void;
-
-//  10은 number 타입의 서브타입일까?
-let aaa: number = 10; //정상
-//num 는 수퍼타입이고, 10은 서브타입니다.
-// 여기서는 매개변수 타입이 다르다.
-let a: A = (value) => {
-  console.log(value);
-};
-
-let b: B = (value) => {
-  console.log(value);
-};
-
-a = b; //오류
-```
-
-```ts
-type Animal = {
-  name: string;
-};
-type Dog = {
-  name: string;
-  color: string;
-};
-let a: Animal = { name: "hong" };
-let b: Dog = { name: "hong", color: "yellow" };
-
-// Animal 은 Dog 의 수퍼 타입이다.
-// Dog 는 Animal 의 필수 프로퍼티를 모두 가지고 있는 서브타입이다.
-// a = b; // OK
-// b = a; // 오류
-
-let animalFunction = (ani: Animal): void => {};
-let dogFunction = (dog: Dog): void => {};
-
-// 함수 매개 변수의 타입 호환은 일반적인 타입간의 호환과 반대로 생각해야 합니다.
-// 아래 코드는 다음 처럼 시도한 것과 같습니다.
-animalFunction = dogFunction;
-// 함수명 (ani:Animal) {
-//   ani.name // 성공
-//   ani.color 로 접근하려고 하는 코드로 진행 됨. // 그래서 오류
-// }
-
-dogFunction = animalFunction;
-// 함수명 (dog: Dog) {
-//   ani.name  // 성공
-//   ani.color // 성공
-// }
-```
-
-## 리턴 타입이 `만약 호환되는 타입`이라면 어떻게 될까?
-
-```ts
-type A = (value: number) => 10;
-type B = (value: number) => number;
-
-let a: A = (value) => 10;
-let b: B = (value) => value;
-
-// 우리가 생각하는 Super 타입과 Sub 타입의 호환이 유진된다.
-a = b; // 오류
-b = a; // OK
-```
-
-## 함수 오버로딩
+- 실행해 보기
+  : `node src/index.js`
