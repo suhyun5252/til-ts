@@ -1,157 +1,635 @@
-# TypeScript
+# 클래스
 
-## 1. 기본적 개발 환경 코드 설정
+- 여러개의 인스턴스를 만들기 위한 객체의 `설계도`
+- JS, React 와 Next에서 클래스는 활용도가 엄청 낮습니다.
+- 대게 함수를 기반으로 프로젝트 진행하므로.
+- typescript를 기반으로 백엔드를 구축합니다. (Node.js, Express.js, Nest.js)
+- 예) java를 기반으로 백엔드를 구축한다.(JSP, Spring)
+- 예) SQL 구문 기반으로 DB를 제어한다.(JPA, TypeORM)
 
-- Node.js 설치
-  : 18 버전이상
-  : LTS란 Long Term Support 의 약자로 오랜기간동안 안정적으로 지원되는 버전
-  : `node --version` 또는 `node -v` 명령어로 버전 확인
-  : `npm -v` 명령어로 npm 버전 확인
-
-## 2. TypeScript 소개
-
-- https://www.typescriptlang.org/
-- https://www.typescriptlang.org/play
-- 타입스크립트는 기존의 자바스크립트를 더 안전하게 사용할 수 있도록 타입 관련된 여러가지 기능들을 추가한 언어입니다.
-- 그래서 타입스크립트는 쉽게 말해서 `자바스크립트의 확장판` 이라고 부를 수 있습니다.
-- 타입스크립트는 최종적으로 자바스크립트로 변환되어 실행됩니다.
-- 이미 자바스크립트를 안다면 확장판 학습은 수월하다.
-
-## 3. 굳이 타입스크립트를 사용하는 이유
-
-- 자바스크립트가 너무 인기가 있기 때문이다.
-- 개발자가 갖추어야 할 기본 소양이 되었다.
-
-- 자바스크립트의 문제점
-  : 유연한 문법
-  : 자유로움
-  : 버그 발생 가능성 높음
-
-- Node.js 즉, 자바스크립트 런타임 구동기가 나오면서 웹브라우저 뿐만 아니라 어디서도 실행할 수 있도록 되었다.
-  : 굉장히 다양한 개발 진행됨.
-  : 웹 서버, 모바일 앱, 데스크탑 앱 에 활용
-  : js 한계가 있었던 부분을 해결해줌
-  : 문제는 js 는 너무 엄격하지 않아서 문제가 됨.
-
-- 타입스크립트의 장점
-  : 엄격한 문법
-  : 버그 발생 가능성 낮음
-  : 안정적임
-
-- 그래서, 자바스크립트를 더 안전하게 사용할 수 있도록 `타입관련기능들을 추가한`언어
-
-## 4. 자바스크립트의 단점과 타입스크립트
-
-- 자바스크립트의 한계
-  : 모든 프로그래밍 언어는 타입 시스템이라는 것이 존재한다.
-  : 타입 시스템이란 프로그래밍 언어에서 변수의 타입을 결정하는 방법을 의미한다.
-  : 타입 시스템이 없다면 프로그래밍 언어는 모든 변수에 대한 타입을 결정할 수 없다.
-  : 타입 시스템은 변수의 타임을 결정하는 방법을 의미한다.
-
-- 타입시스템의 일반적 문법체계
-  : 값들을 어떤 기준으로 묶어 타입을 규정할 것인가?
-  : 코드의 타입을 언제 검사할 것인가?
-  : 어떻게 타입을 검사할 것인가?
-
-## 5. 타입 시스템의 종류
-
-- 정적 타입 시스템
-  : 코드 실행 전에 타입을 검사
-  : 코드 실행 전에 모든 변수의 타입을 고정적으로 결정함.
-  : 엄격하고 고정적인 시스템
-  : C, C++, Java, TypeScript 등
-
-- 동적 타입 시스템
-  : 코드 실행 중에 타입을 검사
-  : 그때 그때 마다 유동적으로 변수의 타입을 결정함.
-  : 자유롭고 유연한 시스템
-  : JavaScript, Python, Ruby 등
-  : 변수의 타입을 우리가 직접 지정하지 않음
-  : 자바스크립트가 사용하는 동적 타입 시스템은 변수의 타입들을 코드가 실행되는 도중에 결정함.
-  : 때문에 우리가 코드에 미리 변수의 타입을 일일이 지정하지 않아도 됨.
-  : 변수의 타입이 하나로만 고정되지 않음.
-  : 아무 타입의 값이나 자유롭게 담을 수 있음.
-  : 담긴 값에 따라서 변경될 수 있음.
-  : 아래는 문제점 발생함.
-  : 실행이 되는 것이 문제다.
+## 1. 일반 객체로 생성하는 경우
 
 ```js
-let a = "hello";
-a = 1;
-a.toUpperCase(); // 작동은 되지만 오류가 발생함.
+let car = {
+  // Property(속성)
+  name: "벤츠",
+  brand: "현대",
+  price: 100,
+  year: 50,
+  // Method(행동)
+  move() {
+    console.log("운전");
+  },
+  stop() {
+    console.log("멈춤");
+  },
+};
+let car2 = {
+  // Property(속성)
+  name: "그랜저",
+  brand: "현대",
+  price: 1000,
+  year: 20,
+  // Method(행동)
+  move() {
+    console.log("운전");
+  },
+  stop() {
+    console.log("멈춤");
+  },
+};
 ```
 
-- 정적 타입 시스템
-  : 코드 실행 이전 모든 변수의 타입을 고정적으로 결정함.
-  : 자바스크립트와는 반대로 변수를 선언함과 동시에 타입도 함께 명시해 주어야 함.
-  : 문법이 그렇다.
-  : 실행 중 오류는 잘 발생하지 않음.
-  : 그렇다고 모든게 좋은 것은 아니고, 모든 변수에 타입을 다 지정해 주어야 함.
-  : 타이핑 양이 매우 증가한다.
+## 2. 클래스의 기본형
 
-## 6. 타입스크립트의 독특한 타입 시스템
+```js
+// 클래스로 구현해 본다
+class 클래스이름 {
+  // 속성 필드
+  속성명1;
+  속성명2;
+  // 인스턴스 생성자(이름변경 불가)
+  constructor() {}
+  // 메서드 필드
+  메서드명1() {}
+  메서드명2() {}
+}
 
-- 점진적 타입시스템(동적 타입 시스템 + 정적 타입 시스템)
-  : 정적 타입 시스템(변수의 타입을 실행 전에 결정)
-  : 정적 타입 시스템(타입 오류를 실행 전에 검사함)
-  : 동적 타입 시스템(모든 변수에 타입을 일일이 지정할 필요가 없음)
-  : 점진적 타입시스템-Gradual Typing System 으로 알아서 타입을 추론함
-
-## 7. 타입스크립트의 동작원리
-
-- 사람 > 프로그래밍 언어 > 컴파일(변환) > 기계어 > 컴퓨터
-- 사람 > 프로그래밍 언어 > 컴파일러가 컴파일(변환) > 바이트코드(기계어) > 컴퓨터
-- JS 코드 > AST(추상 문법 트리 변환) > 바이트코드 > 컴퓨터
-- TS 코드 > AST(추상 문법 트리 변환) > `타입검사` > js > AST(추상 문법 트리 변환) > 바이트코드 > 컴퓨터
-  : 타입과 관련딘 코드들은 컴파일 결과 모두 사라진다.
-  : 타입스크립트는 컴파일 결과 모두 사라진다.
-
-## 8. 기본 프로젝트 실습
-
-### 8.1. Node.js 프로젝트 초기화
-
-- `npm init`
-- `package.json` 파일 확인
-
-### 8.2. Node.js 가 제공하는 내장 기능들에 대한 타입 정보를 갖고 있는 `@types/node` 패키지 설치
-
-- `npm i @types/node`
-  : 패키지를 설치하지 않으면 TypeScript 가 우리가 작성한 코드를 컴파일 하는 과정에서 이런 Node.js 기본 기능에 대해서 타입 검사 오류가 발생함.
-  : 반드시 설치해 주어야 함.
-
-- `package.json` 파일 확인
-
-### 8.3. 타입스크립트 컴파일러 설치
-
-- `npm i -g typescript`
-  : 글로벌 옵션으로 설치해야 함.
-
-- `tsc -v`
-  : 타입스크립트 버전 확인
-
-```
-타입스크립트는 코드를 실행하기 전에 타입을 올바르게 사용했는지 검사하는 ‘타입 검사’ 과정을 거칩니다.
-이 검사 과정에서 타입이 선언되지 않은 코드를 만나게 되면 타입스크립트는 타입이 올바르게 사용 되지 않았다고 생각해 오류를 발생 시킵니다. 따라서 Node.js의 기본 기능들을 위한 타입을 별도로 선언하기 위해 @types/node 패키지를 설치해야 합니다.
+// 인스턴스 생성
+let 인스턴스 = new 클래스이름();
 ```
 
-## 9. TypeScript 테스트
+## 3. 클래스의 속성 필드 정의
 
-- `src` 폴더 생성
-- `src/index.ts` 파일 생성
+- let, var, const 키워드는 작성 못함
+- 객체 속성과는 다르게` 세미콜론(;)`으로 마감한다.
+- 초기값 셋팅은 constructor 에서 진행
+
+```js
+let car = {
+  // Property (속성)
+  name: "소나타",
+  brand: "현대",
+  price: 100,
+  year: 50,
+  // Method (행동)
+  move() {
+    console.log("운전");
+  },
+  stop() {
+    console.log("멈춤");
+  },
+};
+let car2 = {
+  // Property (속성)
+  name: "그랜저",
+  brand: "현대",
+  price: 1000,
+  year: 20,
+  // Method (행동)
+  move() {
+    console.log("운전");
+  },
+  stop() {
+    console.log("멈춤");
+  },
+};
+// 클래스로 구현해 본다.
+class Car {
+  // 속성 필드
+  name;
+  brand;
+  price;
+  year;
+  // 인스턴스 생성자(이름 변경 불가)
+  constructor(name, brand, price, year) {
+    // this 는 new 로 생성되어질 instance 를 가르킴.
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  // 메소드 필드
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+}
+
+// 인스턴스 생성
+let 그랜저 = new Car("현대", "그랜저", 1000, 20);
+// {name: "현대", brand: "그랜저", price: 1000, year: 20}
+let 아반떼 = new Car("현대", "아반떼", 100, 30);
+// {name: "현대", brand: "아반떼", price: 100, year: 30}
+```
+
+## 4. 상속을 통한 클래스 확장
+
+```js
+// 상속 즉 확장을 통한 클래스 정의
+class ElectricCar extends Car {
+  // 자식 클래스에 해당하는 속성 필드
+  batteryLevel;
+  constructor(name, brand, price, year, batteryLevel) {
+    // 부모의 constructor 를 먼저 실행해 주어야 함.
+    super(name, brand, price, year);
+    this.batteryLevel = batteryLevel;
+  }
+  // 자식 클래스에 해당하는 메소드 필드
+  level() {
+    console.log(`${this.batteryLevel} 입니다.`);
+  }
+}
+
+let 캐스퍼 = new ElectricCar("캐스퍼", "현대", 1000, 5, 100);
+캐스퍼.move();
+캐스퍼.stop();
+캐스퍼.level();
+```
+
+## 5. 최종 코드
+
+```js
+class Car {
+  name;
+  brand;
+  price;
+  year;
+  constructor(name, brand, price, year) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+}
+// 상속
+class ElectricCar extends Car {
+  batteryLevel;
+  constructor(name, brand, price, year, batteryLevel) {
+    super(name, brand, price, year);
+    this.batteryLevel = batteryLevel;
+  }
+  level() {
+    console.log(`${this.batteryLevel} 입니다.`);
+  }
+}
+
+// 인스턴스 생성
+let 그랜저 = new Car("현대", "그랜저", 1000, 20);
+// {name: "현대", brand: "그랜저", price: 1000, year: 20}
+그랜저.move();
+그랜저.stop();
+let 아반떼 = new Car("현대", "아반떼", 100, 30);
+// {name: "현대", brand: "아반떼", price: 100, year: 30}
+
+let 캐스퍼 = new ElectricCar("캐스퍼", "현대", 1000, 5, 100);
+캐스퍼.move();
+캐스퍼.stop();
+캐스퍼.level();
+```
+
+## 6. 타입스크립트로 속성 필드 타입 정의하기
 
 ```ts
-console.log("Hello TypeScript");
-const a: number = 1;
+class Car {
+  // 속성필드 타입정의
+  name: string;
+  brand: string;
+  price: number;
+  year: number;
+  constructor(name: string, brand: string, price: number, year: number) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+}
 ```
 
-- `tsc src/index.ts`
-- 자동으로 js 파일 생성됨
-- `src/index.js` 파일 확인
+## 7. 타입스크립트로 속성 필드 초기값 정의하기
 
-```js
-console.log("Hello TypeScript");
-var a = 1;
+- 방식 1
+
+```ts
+class Car {
+  // 속성필드 타입정의
+  name: string = "";
+  brand: string = "";
+  price: number = 0;
+  year: number = 0;
+  constructor(name: string, brand: string, price: number, year: number) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+}
 ```
 
-- 실행해 보기
-  : `node src/index.js`
+## 8. 클라스 상속을 통한 확장
+
+```ts
+class Car {
+  // 속성필드 타입정의
+  name: string = "";
+  brand: string = "";
+  price: number = 0;
+  year: number = 0;
+  constructor(name: string, brand: string, price: number, year: number) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+}
+// 상속
+class ElectricCar extends Car {
+  batteryLevel: number = 100;
+  constructor(
+    name: string,
+    brand: string,
+    price: number,
+    year: number,
+    batteryLevel: number
+  ) {
+    super(name, brand, price, year);
+    this.batteryLevel = batteryLevel;
+  }
+  level() {
+    console.log(`${this.batteryLevel} 입니다.`);
+  }
+}
+```
+
+## 9. 접근(속성 또는 메서드)제어자
+
+- public, private, protected
+- public : 모든 곳에 접근가능
+- private : 클래스 내부에서만 접근 가능
+- protected : 클래스 내부 또는 상속된 클래스에서만 접근 가능
+
+## 9.1 public
+
+```ts
+class Car {
+  // 속성필드 타입정의
+  public name: string = ""; // 자동으로 public 셋팅
+  public brand: string = ""; // 자동으로 public 셋팅
+  public price: number = 0; // 자동으로 public 셋팅
+  public year: number = 0; // 자동으로 public 셋팅
+  constructor(name: string, brand: string, price: number, year: number) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  public move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  public stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+}
+
+let 아반떼 = new Car("아반떼", "현대", 1000, 50);
+아반떼.name;
+아반떼.brand;
+아반떼.price;
+아반떼.year;
+// public 속성 갑 변경
+아반떼.price = 5000;
+```
+
+- 가능하면 메서드는 public 으로 정의한다.
+- 외부에서 메서드를 통해서 속성에 접근하는 것이 정석임.
+
+### 9.2 private
+
+- 기본적으로 private 를 추천합니다.
+- 속성 읽기 및 수정은 메서드를 통해서 예외처리를 하면서 접근함.
+
+```ts
+class Car {
+  // 속성필드 타입정의
+  public name: string = ""; // 자동으로 public 셋팅
+  public brand: string = ""; // 자동으로 public 셋팅
+
+  // 사용자가 외부에서 데이터값을 변경 못하도록 하겠다
+  private price: number = 0; // 수동으로 private 셋팅
+
+  public year: number = 0; // 자동으로 public 셋팅
+  constructor(name: string, brand: string, price: number, year: number) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+  // private 속성에 price 에 접근하는 읽기 메서드
+  // private 속성에 price 에  접근하는 쓰기 메서드
+  getPrice() {
+    console.log(this.price);
+  }
+  setPrice(p: number) {
+    if (p < 0) {
+      console.log("가격은 0보다 커야 합니다.");
+    }
+    this.price = p;
+  }
+}
+
+let 아반떼 = new Car("아반떼", "현대", 1000, 50);
+아반떼.name;
+아반떼.brand;
+// 아반떼.price; //private 이라서 읽기 접근 금지
+아반떼.year;
+// public 속성 갑 변경
+//private 이라서 쓰기 접근 금지
+// 아반떼.price = 5000;
+아반떼.setPrice(1000);
+
+// 상속
+class ElectricCar extends Car {
+  batteryLevel: number = 100;
+  constructor(
+    name: string,
+    brand: string,
+    price: number,
+    year: number,
+    batteryLevel: number
+  ) {
+    super(name, brand, price, year);
+    this.batteryLevel = batteryLevel;
+  }
+  level() {
+    console.log(`${this.batteryLevel} 입니다.`);
+  }
+}
+```
+
+### 9.3 protected
+
+- 클래스에서 직접 접근하거나 상속된 클래스에서는 접근 가능
+
+```ts
+class Car {
+  // 속성필드 타입정의
+  public name: string = ""; // 자동으로 public 셋팅
+  public brand: string = ""; // 자동으로 public 셋팅
+
+  // 사용자가 외부에서 데이터값을 변경 못하도록 하겠다
+  private price: number = 0; // 수동으로 private 셋팅
+
+  // 클래스 내부 또는 상속된 클래스에서만 접근가능
+  protected year: number = 0; // 수동으로 public 셋팅
+  constructor(name: string, brand: string, price: number, year: number) {
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+  // private 속성에 price 에 접근하는 읽기 메서드
+  // private 속성에 price 에  접근하는 쓰기 메서드
+  getPrice() {
+    console.log(this.price);
+  }
+  setPrice(p: number) {
+    if (p < 0) {
+      console.log("가격은 0보다 커야 합니다.");
+    }
+    this.price = p;
+  }
+  // protected 속성 year 접근
+  getYear() {
+    console.log(this.year);
+  }
+}
+
+// 상속
+class ElectricCar extends Car {
+  batteryLevel: number = 100;
+  constructor(
+    name: string,
+    brand: string,
+    price: number,
+    year: number,
+    batteryLevel: number
+  ) {
+    super(name, brand, price, year);
+    this.batteryLevel = batteryLevel;
+  }
+  level() {
+    console.log(`${this.batteryLevel} 입니다.`);
+  }
+  // 부모 protected
+  showYear() {
+    console.log(this.year);
+  }
+}
+
+let 아반떼 = new Car("아반떼", "현대", 1000, 50);
+아반떼.name;
+아반떼.brand;
+// 아반떼.price; //private 이라서 읽기 접근 금지
+아반떼.getPrice();
+//아반떼.year; // protected 라서 읽기 접근 금지
+// public 속성 갑 변경
+//private 이라서 쓰기 접근 금지
+// 아반떼.price = 5000;
+아반떼.setPrice(1000);
+
+let EV5 = new ElectricCar("EV5", "현대", 1000, 5, 100);
+EV5.price; // private 이라서 외부 접근 에러
+EV5.year; // protected 이라서 외부 접근 에러
+```
+
+## 10. 혹시 이럴수도 있습니다. (문법 및 라이브러리 소스 보시면 자주 나옵니다.)
+
+- 생성자 즉 constructor 에서 필드를 생략하는 경우를 볼수 있다
+
+```ts
+ constructor(
+    public name: string = "",
+    public brand: string = "",
+    private price: number = 0,
+    protected year: number = 0
+  ) {
+    // 아래 생략되어도 같은 효과를 봄
+    // this.name = name;
+    // this.brand = brand;
+    // this.price = price;
+    // this.year = year;
+  }
+```
+
+- 상속받은 클래스 생성자 축약형
+
+```ts
+ // 상속받은 경우의 생성자 축약형
+  constructor(
+    name: string = "",
+    brand: string = "",
+    price: number = 0,
+    year: number = 0,
+    public batteryLevel: number = 0
+  ) {
+    super(name, brand, price, year);
+  }
+```
+
+## 11. 전체 코드
+
+```ts
+class Car {
+  constructor(
+    public name: string = "",
+    public brand: string = "",
+    private price: number = 0,
+    protected year: number = 0
+  ) {
+    // 아래 생략되어도 같은 효과를 봄
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.year = year;
+  }
+  public move() {
+    console.log(`${this.name}을 운전합니다.`);
+  }
+  public stop() {
+    console.log(`${this.name}을 멈춥니다.`);
+  }
+  // private 속성 price 에 접근하는 읽기 메서드
+  // private 속성 price 에 접근하는 쓰기 메서드
+  getPrice() {
+    console.log(this.price);
+  }
+  setPrice(p: number) {
+    if (p < 0) {
+      console.log("가격은 0 보다 커야 합니다.");
+    }
+    this.price = p;
+  }
+  // protected 속성 year 접근
+  getYear() {
+    console.log(this.year);
+  }
+}
+
+// 상속
+class ElectricCar extends Car {
+  // 상속받은 경우의 생성자 축약형
+  constructor(
+    name: string = "",
+    brand: string = "",
+    price: number = 0,
+    year: number = 0,
+    public batteryLevel: number = 0
+  ) {
+    super(name, brand, price, year);
+    // this.batteryLevel = batteryLevel; 상속받은경우 생략가능
+  }
+
+  level(): void {
+    console.log(`배터리 레벨이 ${this.batteryLevel}% 입니다.`);
+  }
+
+  // 부모 protected 속성에 접근
+  showYear(): void {
+    console.log(`생산년도: ${this.year}년`);
+  }
+}
+
+let 아반떼 = new Car("아반떼", "현대", 1000, 50);
+아반떼.name;
+아반떼.brand;
+//아반떼.price; // private 이라서 읽기 접근금지
+아반떼.getPrice();
+// 아반떼.year; // protected 라서 읽기 접근금지
+
+// public 속성 값 변경
+// 아반떼.price = 5000; // private 이라서 쓰기 접근금지
+아반떼.setPrice(1000);
+
+let EV5 = new ElectricCar("EV5", "현대", 1000, 5, 100);
+// EV5.price ; // private 이라서 외부 접근 에러
+// EV5.year ;  // protected 라서 외부 접근 에러
+```
+
+## 12. 인터페이스
+
+- `약속`을 지켜서 클래스를 만드세요.
+- 클래스 만드는 것은 좋은데, 이러한 속성 필드와, 이러한 속성 메서드는 `반드시 구현`하라
+- 인터페이스에서는 무조건 `public`
+
+```ts
+// 약속을 지켜라
+interface CarInterface {
+  name: string;
+  brand: string;
+  price: number;
+  stop(): void;
+  move(): void;
+}
+interface ElectricInterface {
+  baterry: number;
+  isBaterry: boolean;
+}
+// 인터페이스를 구현
+class ElectricCar implements CarInterface, ElectricInterface {
+  constructor(
+    public name: string,
+    public brand: string,
+    public price: number,
+    public baterry: number,
+    public isBaterry: boolean // 1. public 추가 2. 철자 수정
+  ) {}
+  stop() {
+    console.log("멈춰");
+  }
+  move() {
+    console.log("움직여");
+  }
+}
+
+let 자동차 = new ElectricCar("캐스퍼", "현대", 1000, 10, true);
+자동차.stop();
+자동차.move();
+```
