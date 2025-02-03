@@ -1,19 +1,9 @@
-type Cat = { kind: "CAT"; sound: string; color: string };
-type Dag = { kind: "DOG"; sound: string; food: string };
-type Bird = { kind: "BIRD"; sound: string; fly: boolean };
-type Animal = Cat | Dag | Bird;
+type A = (value: number) => 10;
+type B = (value: number) => number;
 
-// 동물의 소리를 출력하는 기능
-function song(what: Animal) {
-  switch (what.kind) {
-    case "CAT":
-      console.log("고양이");
-      break;
-    case "DOG":
-      console.log("강아지");
-      break;
-    case "BIRD":
-      console.log("새");
-      break;
-  }
-}
+let a: A = (value) => 10;
+let b: B = (value) => value;
+
+// 우리가 생각하는 Super 타입과 Sub 타입이 있으면 Sub 타입은 Super 타입에 호환된다.
+a = b; //오류
+b = a; //정상
