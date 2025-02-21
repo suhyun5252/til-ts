@@ -2216,6 +2216,7 @@ const suji: Idol = {
   groupName: "black pink",
 };
 
+// type IdolPartial = {  name?: string | undefined;  age?: number | undefined;  groupName?: string | undefined; }
 type IdolPartial = Partial<Idol>;
 
 function updateIdol(origin: Idol, update: IdolPartial): Idol {
@@ -2229,6 +2230,7 @@ interface Cat {
   age?: number;
   breed?: string;
 }
+// type CatRequire = {  name: string;  age: number;  breed: string;}
 type CatRequire = Required<Cat>;
 
 // Readonly (모두 읽기 전용 속성으로 바꿈)
@@ -2237,6 +2239,7 @@ interface Cat2 {
   age?: number;
   breed?: string;
 }
+// type CatReadonly = {  readonly name: string;  readonly age?: number | undefined;  readonly breed?: string | undefined;}
 type CatReadonly = Readonly<Cat>;
 
 // Pick (특정 속성만 선택해서 사용)
@@ -2245,6 +2248,8 @@ interface Cat3 {
   age?: number;
   breed?: string;
 }
+
+// type CatPick = {  age?: number | undefined;  breed?: string | undefined;}
 type CatPick = Pick<Cat, "age" | "breed">;
 
 // Omit (특정 속성만 제외해서 선택)
@@ -2253,20 +2258,26 @@ interface Cat4 {
   age?: number;
   breed?: string;
 }
+// type CatOmit = {  age?: number | undefined;  breed?: string | undefined;}
 type CatOmit = Omit<Cat, "name">;
 
 // Exclude (특정 타입을 제외하고 사용)
 type NoString = Exclude<string | boolean | number, string>;
 type Candy = "초코" | "딸기" | "바나나" | "사과";
+
+// type RemainingCandy = "딸기" | "사과"
 type RemainingCandy = Exclude<Candy, "초코" | "바나나">;
 
 // Extract (특정 타입을 추출해서 사용)
 type NoString2 = Extract<string | boolean | number, string>;
 type Candy2 = "초코" | "딸기" | "바나나" | "사과";
+
+// type RemainingCandy2 = "초코" | "바나나"
 type RemainingCandy2 = Extract<Candy, "초코" | "바나나">;
 
 // Parameters (매개 변수 타입을 사용)
 function fun(x: number, y: number, z: boolean) {}
+
 // type TParams = [x: number, y: number, z: boolean]
 type TParams = Parameters<typeof fun>;
 // type TParamsVoid = [a: number]
@@ -2286,19 +2297,25 @@ type TCS = ConstructorParameters<typeof Idol>;
 
 // ReturnType (함수의 리턴타입)
 type sFn = (a: number) => number;
+
 // type RT = number
 type RT = ReturnType<sFn>;
+
 // type RT2 = void
 type RT2 = ReturnType<() => void>;
 
 // Template Literal Type
+
 type IU = "Iue";
 // type UIU = "IUE"
+
 type UIU = Uppercase<IU>;
 // type sIU = "iue"
 type sIU = Lowercase<IU>;
+
 // type cIU = "Iue"
 type cIU = Capitalize<IU>;
+
 // type uIU = "iue"
 type uIU = Uncapitalize<IU>;
 ```
